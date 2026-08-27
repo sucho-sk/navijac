@@ -1,9 +1,7 @@
-
-
 <div align="center">  
   <h2>
     Navijac
-    <p><i>Open source firmware pre navijac hodiniek</i></p>
+    <p>Open source firmware pre navijac hodiniek</p>
   </h2>
 </div>
 
