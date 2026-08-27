@@ -1,0 +1,37 @@
+.pio/build/esp32-c6-devkitc-1/lib53e/Hash/SHA2Builder.cpp.o: \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32/libraries/Hash/src/SHA2Builder.cpp \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-log.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/esp_timer/include/esp_timer.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/newlib/platform_include/stdio.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/esp_common/include/esp_err.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/esp_common/include/esp_compiler.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/esp_hw_support/include/esp_etm.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/esp_rom/esp32c6/include/esp32c6/rom/ets_sys.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/log/include/esp_log.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/esp_rom/include/esp_rom_sys.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/soc/esp32c6/include/soc/reset_reasons.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/soc/esp32c6/include/soc/soc_caps.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/log/include/esp_log_config.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/log/include/esp_log_level.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/esp_common/include/esp_assert.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/log/include/esp_log_color.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/log/include/esp_log_buffer.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/log/include/esp_log_timestamp.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/log/include/esp_log_write.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/log/include/esp_log_format.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/log/include/esp_log_args.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/esp_common/include/esp_macros.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/esp_common/include/esp_assert.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/log/include/esp_log_attr.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/esp_common/include/esp_attr.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/log/include/esp_private/log_attr.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32/libraries/Hash/src/SHA2Builder.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32/cores/esp32/WString.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32/cores/esp32/pgmspace.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/newlib/platform_include/ctype.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32/cores/esp32/Stream.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32/cores/esp32/Print.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32/cores/esp32/WString.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32/cores/esp32/Printable.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32/cores/esp32/HashBuilder.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32/cores/esp32/HEXBuilder.h

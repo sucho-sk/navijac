@@ -1,0 +1,327 @@
+openapi: 3.1.0
+info:
+  title: Winderoo API
+  version: 4.0.0
+servers:
+  - url: http://winderoo.local/api/
+    description: local development and deployed devices
+tags:
+  - name: Status
+    description: Retrieve the current state of Winderoo
+  - name: Modify
+    description: Modify the state of Winderoo
+paths:
+  /timer:
+    post:
+      tags:
+        - Modify
+      summary: Change the timer state of Winderoo
+      parameters:
+        - in: query
+          name: timerEnabled
+          schema:
+            type: integer
+          description: Whether Winderoo should enable alarm-start winding; number represents a boolean where 0 == off and 1 == on.
+          example: 1
+      responses:
+        '204':
+          description: Successful opeation
+        '400':
+          description: Missing required field in request body
+          content:
+            text/plain:
+              schema:
+                type: string
+                examples: 
+                  - "Missing required field: 'tpd'"
+        '500':
+          description: Something went wrong when writing to memory or during deserialization
+          content:
+            text/plain:
+              schema:
+                type: string
+                examples:
+                  - Failed to deserialize request body
+  /update:
+    post:
+      tags:
+        - Modify
+      summary: Change the state of Winderoo
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateBody'
+      responses:
+        '204':
+          description: Successful opeation
+        '400':
+          description: Missing required field in request body
+          content:
+            text/plain:
+              schema:
+                type: string
+                examples: 
+                  - "Missing required field: 'tpd'"
+        '500':
+          description: Something went wrong when writing to memory or during deserialization
+          content:
+            text/plain:
+              schema:
+                type: string
+                examples:
+                  - Failed to deserialize request body
+  /status:
+    get:
+      tags:
+        - Status
+      summary: Get the current status of Winderoo
+      responses:
+        '200':
+          description: Service is alive with current winder state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+  /power:
+    post:
+      tags:
+        - Modify
+      summary: Toggle whether Winderoo is on or off (hard off state)
+      requestBody:
+        $ref: '#/components/requestBodies/PowerBody'
+      responses:
+        '204':
+          description: State toggled succesfully
+        '400':
+          description: Missing required field in request body
+          content:
+            text/plain:
+              schema:
+                type: string
+                examples: 
+                  - "Missing required field: 'winderEnabled'"
+        '500':
+          description: Something went wrong when writing to memory or during deserialization
+          content:
+            text/plain:
+              schema:
+                type: string
+                examples: 
+                  - Failed to deserialize request body
+  /reset:
+    get:
+      tags:
+        - Modify
+      summary: Resets Winderoo's network settings; re-initializes winderoo with setup access point
+      responses:
+        '200':
+          description: State toggled succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resetting'
+components:
+  requestBodies:
+    UpdateBody:
+      description: a JSON object containing winderoo information
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Update'
+          example:
+            tpd: "330"
+            hour: "14"
+            minutes: "50"
+            timerEnabled: "0"
+            action: "START"
+            rotationDirection: "BOTH"
+            screenSleep: false
+            screenScheduleEnabled: false
+            screenScheduleStartTime: "09:00"
+            screenScheduleEndTime: "22:00"
+            customWindDuration: 180
+            customWindPauseDuration: 15
+            customDurationInSecondsToCompleteOneRevolution: 8
+            gmtOffset: -3.5
+            dst: false
+    PowerBody:
+      description: a JSON object containing winderoo power information
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Power'
+          example:
+            winderEnabled: "1"
+  schemas:
+    Power:
+      type: object
+      propertries:
+        winderEnabled:
+          type: string
+          description:
+            Whether Winderoo should enable alarm-start winding; number represents a boolean where 0 == off and 1 == on.
+          examples:
+            - 0
+            - 1
+    Update:
+      type: object
+      propertries:
+        tpd:
+          type: string
+          description: how many turns are required
+          examples:
+            - 330
+        hour:
+          type: string
+          description: At what hour winderoo should begin winding at
+          examples:
+            - 14
+        minutes:
+          type: string
+          description: At what minute winderoo should begin winding at
+          examples:
+            - 50
+        timerEnabled:
+          type: string
+          description:
+            Whether Winderoo should enable alarm-start winding; number represents a boolean where 0 == off and 1 == on.
+          examples:
+            - 0
+            - 1
+        action:
+          type: string
+          description: Whether Winderoo should start or stop winding
+          examples:
+            - START
+            - STOP
+        rotationDirection:
+          type: string
+          description: The winding direction
+          examples:
+            - CW
+            - CCW
+            - BOTH
+        screenScheduleEnabled:
+          type: boolean
+          description: Whether OLED screen scheduling is enabled
+          examples:
+            - false
+            - true
+        screenScheduleStartTime:
+          type: string
+          description: Start time for OLED screen schedule (HH:MM format)
+          examples:
+            - "09:00"
+            - "22:00"
+        screenScheduleEndTime:
+          type: string
+          description: End time for OLED screen schedule (HH:MM format)
+          examples:
+            - "17:00"
+            - "06:00"
+        gmtOffset:
+          type: number
+          examples:
+            - -3.5
+        dst:
+          type: boolean
+          examples:
+            - false
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          examples: 
+            - Stopped
+        rotationsPerDay:
+          type: string
+          examples:
+            - 300
+        direction:
+          type: string
+          examples:
+            - BOTH
+        hour:
+          type: string
+          examples:
+            - 12
+        minutes:
+          type: string
+          examples:
+            - 50
+        startTimeEpoch:
+          type: number
+          examples:
+            - 0
+        currentTimeEpoch:
+          type: number
+          examples:
+            - 1680555863
+        estimatedRoutineFinishEpoch:
+          type: number
+          examples:
+            - 0
+        winderEnabled:
+          type: string
+          examples:
+            - 1
+        timerEnabled:
+          type: string
+          examples:
+            - 1
+        db:
+          type: number
+          examples:
+            - -67
+        screenSleep:
+          type: boolean
+          examples:
+            - false
+        screenScheduleEnabled:
+          type: boolean
+          examples:
+            - false
+        screenScheduleStartTime:
+          type: string
+          examples:
+            - "09:00"
+        screenScheduleEndTime:
+          type: string
+          examples:
+            - "22:00"
+        screenEquipped:
+          type: boolean
+          examples:
+            - false
+        customWindDuration:
+          type: number
+          examples:
+            - 180
+        customWindPauseDuration:
+          type: number
+          examples:
+            - 15
+        customDurationInSecondsToCompleteOneRevolution:
+          type: number
+          examples:
+            - 8
+        gmtOffset:
+          type: number
+          examples:
+            - -3.5
+        apiVersion:
+          type: string
+          examples:
+            - 2.1.0
+        dst:
+          type: boolean
+          examples:
+            - false
+    Resetting:
+      type: object
+      properties:
+        status:
+          type: string
+          examples:
+            - Resetting

@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>  
+  {{ "HEADER.DIALOG.TITLE" | translate }}
+</h1>
+<h4>
+  {{ "HEADER.DIALOG.SUBTITLE" | translate }}
+</h4>
+
+<div mat-dialog-content>
+  
+  <ol>
+    <li>
+      {{ "HEADER.DIALOG.POINT_1" | translate }}
+    </li>
+    <li>
+      {{ "HEADER.DIALOG.POINT_2" | translate }} <b>"Winderoo Setup"</b>
+    </li>
+    <li>
+      {{ "HEADER.DIALOG.POINT_3" | translate }}
+    </li>
+    <li>
+      {{ "HEADER.DIALOG.POINT_4" | translate }}
+    </li>
+  </ol>
+  
+  <h4>
+    {{ "HEADER.DIALOG.NOW_AVAILABLE" | translate }}
+  </h4>
+  <ul>
+    <li>
+      <a href="http://winderoo.local">http://winderoo.local</a>
+    </li>
+  </ul>
+</div>
+
+<button aria-label="Close dialog window" class="pure-css-button" style="background-color: white; color: black; margin-bottom: 1rem;" (click)="closeDialog()">
+  {{ "HEADER.DIALOG.CANCEL" | translate }}
+</button>
+
+<button mat-stroked-button aria-label="Reset winder" class="pure-css-button" (click)="confirmReset()">
+  {{ "HEADER.DIALOG.CONFIRM_RESET" | translate }}
+</button>
+
+<p class="version">
+  FE v{{ this.version }}
+</p>

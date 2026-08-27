@@ -1,0 +1,8 @@
+.pio/build/esp32-c6-devkitc-1/FrameworkArduino/esp32-hal-ldo.c.o: \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-ldo.c \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-ldo.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/qio_qspi/include/sdkconfig.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/soc/esp32c6/include/soc/soc_caps.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/esp_common/include/esp_err.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/newlib/platform_include/stdio.h \
+ /Users/sucho/.platformio/packages/framework-arduinoespressif32-libs/esp32c6/include/esp_common/include/esp_compiler.h

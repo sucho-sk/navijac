@@ -1,0 +1,336 @@
+<div class="contianer" [hidden]="this.isWinderEnabled == 0">
+
+    <mat-card class="mat-elevation-z1" [ngClass]="getColour(this.upload.activityState)">
+            <div>
+                <span>
+                    {{ "SETTINGS.STATUS" | translate }}
+                </span>
+                <div class="status-text justify-content-end">
+                    {{ getReadableActivityState(this.upload.activityState) }}
+                </div>
+            </div>
+            <span class="full-screen-spacer"></span>
+            <mat-icon style="margin-right: 0.5rem">{{ this.wifiSignalIcon }}</mat-icon>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z1">
+        <div class="control-buttons">
+            <button mat-raised-button color="accent" class="play-button" (click)="beginProgramming()" [disabled]="upload.disabled">
+                <mat-icon>play_arrow</mat-icon>
+            </button>
+            <button mat-raised-button color="warn" class="stop-button" (click)="stopProgramming()" [disabled]="upload.disabled">
+                <mat-icon>stop</mat-icon>
+            </button>
+        </div>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z1" class="progres-bar" *ngIf="this.upload.activityState === 'Winding'">
+        <div>
+            <div *ngIf="this.progressMode == 'indeterminate'; else elseBlock">
+                <span>{{ "SETTINGS.PLEASE_WAIT" | translate }}</span>
+            </div>
+            <ng-template #elseBlock><span>{{ "SETTINGS.PROGRESS" | translate }}</span></ng-template>
+            <div class="status-text justify-content-end">
+                <mat-progress-bar
+                    class="example-margin"
+                    color="accent"
+                    [mode]="this.progressMode"
+                    value="{{ this.progressPercentageComplete }}">
+            </mat-progress-bar>
+            </div>
+        </div>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z1">
+        <div class="individual-setting">
+            <div>
+                {{ "SETTINGS.ESTIMATED_DURATION" | translate }}
+            </div>
+            <div class="individual-status-text">
+                {{ this.estHoursDuration }} {{ "SETTINGS.HOURS" | translate }} {{ this.estMinutesDuration }} {{ "SETTINGS.MINUTES" | translate }}
+            </div>
+        </div>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z1">
+        <div class="individual-setting ">
+            {{ "SETTINGS.DIRECTION" | translate }}
+            <div class="individual-status-text">{{ getReadableDirectionOfRotation(this.upload.direction) }}</div>
+            <div class="rotation-toggles">
+                <mat-button-toggle-group [(ngModel)]="this.upload.direction" aria-label="Winding Direction">
+                    <mat-button-toggle value="CW" aria-label="Text align left">
+                        <mat-icon>rotate_right</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle value="BOTH" aria-label="Text align center">
+                        <mat-icon>sync</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle value="CCW" aria-label="Text align right">
+                        <mat-icon>rotate_left</mat-icon>
+                    </mat-button-toggle>
+                    </mat-button-toggle-group>
+            </div>
+        </div>
+
+
+        <div class="individual-setting">
+            <div class="">
+                {{ "SETTINGS.ROTATIONS_PER_DAY" | translate }}
+            </div>
+            <div class="individual-status-text">{{ this.upload.rpd }}</div>
+            <mat-slider value="{{ this.upload.rpd }}" min="100" max="960" step="20" discrete (input)="setRotationsPerDay($event)">
+                <input matSliderThumb [(ngModel)]="this.upload.rpd">
+            </mat-slider>
+        </div>
+
+        <div class="individual-setting">
+            <div class="individual-status-text">
+                <a target="_blank" mat-stroked-button (click)="openSite(watchWindingParametersURL)">
+                    {{ "SETTINGS.FIND_WINDING_PARAMETERS" | translate }}
+                </a>
+            </div>
+        </div>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z1">
+        <div class="individual-setting">
+            <div>{{ "SETTINGS.CYCLE_START" | translate }}</div>
+
+            <div style="display: flex; justify-content: center;">
+                <mat-slide-toggle [(ngModel)]="this.isTimerEnabled" (ngModelChange)="updateTimerEnabledState($event)">
+                    <span *ngIf="this.isTimerEnabled; else elseBlock">
+                        {{ "SETTINGS.ENABLED" | translate | uppercase }}
+                    </span>
+                    <ng-template #elseBlock>
+                        <span>
+                        {{ "SETTINGS.DISABLED" | translate | uppercase }}
+                    </span>
+                </ng-template>
+                </mat-slide-toggle>
+            </div>
+
+
+            <div *ngIf="this.isTimerEnabled">
+
+                <div class="individual-status-text">
+                    {{ this.upload.hour }}:{{ this.upload.minutes }}
+                </div>
+
+                <div class="time-input">
+                    <mat-form-field color="accent" appearance="outline">
+                        <mat-label>
+                            {{ "SETTINGS.HOURS" | translate }}
+                        </mat-label>
+                        <select matNativeControl [(ngModel)]="selectedHour" name="hour">
+                            <option value="" selected></option>
+                            <option *ngFor="let hr of hours" [value]="hr.value">
+                                {{ hr.value }}
+                            </option>
+                            </select>
+                    </mat-form-field>
+                    <mat-form-field color="accent" appearance="outline">
+                        <mat-label>
+                            {{ "SETTINGS.MINUTES" | translate }}
+                        </mat-label>
+                        <select matNativeControl [(ngModel)]="selectedMinutes" name="minutes">
+                            <option value="" selected></option>
+                            <option *ngFor="let mn of minutes" [value]="mn.value">
+                                {{ mn.value }}
+                            </option>
+                            </select>
+                    </mat-form-field>
+                </div>
+
+            </div>
+        </div>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z1" *ngIf="this.screenEquipped">
+        <div class="individual-setting">
+            <div>{{ "SETTINGS.SCREEN" | translate }}</div>
+
+            <div style="display: flex; justify-content: center;">
+                <mat-slide-toggle [(ngModel)]="!this.upload.screenSleep" (ngModelChange)="updateScreenSleepState(!$event)">
+                    <span *ngIf="this.upload.screenSleep; else elseBlock">
+                        {{ "SETTINGS.DISABLED" | translate | uppercase }}
+                    </span>
+                    <ng-template #elseBlock>
+                        <span>
+                        {{ "SETTINGS.ENABLED" | translate | uppercase }}
+                    </span>
+                </ng-template>
+                </mat-slide-toggle>
+            </div>
+        </div>
+
+        <!-- Screen Schedule Controls (moved here) -->
+        <div class="individual-setting">
+            <div class="individual-setting">
+                {{ "SETTINGS.SCREEN_SCHEDULE" | translate }}
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <mat-slide-toggle [(ngModel)]="screenScheduleEnabled"
+                    (change)="updateScreenScheduleEnabled($event.checked)">
+                    <span>
+                        {{ "SETTINGS.ENABLE_SCHEDULE" | translate }}
+                    </span>
+                </mat-slide-toggle>
+            </div>
+
+            <div *ngIf="screenScheduleEnabled" style="margin-top: 1em;">
+                <div class="time-input" style="justify-content: center; align-items: center; gap: 1em;">
+                    <span class="setting-label">{{ "SETTINGS.TURN_ON_SCREEN_AT" | translate }}</span>
+                    <mat-form-field color="accent" appearance="outline">
+                        <mat-label>{{ "SETTINGS.HOURS" | translate }}</mat-label>
+                        <mat-select [(ngModel)]="screenScheduleStartTime.hour"
+                            (selectionChange)="updateScreenScheduleTime('start', screenScheduleStartTime)">
+                            <mat-option *ngFor="let hour of hours" [value]="hour.value">
+                                {{hour.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <span class="time-separator">:</span>
+                    <mat-form-field color="accent" appearance="outline">
+                        <mat-label>{{ "SETTINGS.MINUTES" | translate }}</mat-label>
+                        <mat-select [(ngModel)]="screenScheduleStartTime.minute"
+                            (selectionChange)="updateScreenScheduleTime('start', screenScheduleStartTime)">
+                            <mat-option *ngFor="let minute of minutes" [value]="minute.value">
+                                {{minute.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="time-input" style="justify-content: center; align-items: center; gap: 1em; margin-top: 0.5em;">
+                    <span class="setting-label">{{ "SETTINGS.TURN_OFF_SCREEN_AT" | translate }}</span>
+                    <mat-form-field color="accent" appearance="outline">
+                        <mat-label>{{ "SETTINGS.HOURS" | translate }}</mat-label>
+                        <mat-select [(ngModel)]="screenScheduleEndTime.hour"
+                            (selectionChange)="updateScreenScheduleTime('end', screenScheduleEndTime)">
+                            <mat-option *ngFor="let hour of hours" [value]="hour.value">
+                                {{hour.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <span class="time-separator">:</span>
+                    <mat-form-field color="accent" appearance="outline">
+                        <mat-label>{{ "SETTINGS.MINUTES" | translate }}</mat-label>
+                        <mat-select [(ngModel)]="screenScheduleEndTime.minute"
+                            (selectionChange)="updateScreenScheduleTime('end', screenScheduleEndTime)">
+                            <mat-option *ngFor="let minute of minutes" [value]="minute.value">
+                                {{minute.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z1">
+        <div class="individual-setting">
+            <div>{{ "SETTINGS.CUSTOMIZE" | translate }}</div>
+
+            <div class="individual-setting">
+                <div class="">
+                    {{ "SETTINGS.ROTATION_DURATION_TIME" | translate }}
+                </div>
+                <div class="individual-status-text">
+                    {{ this.convertSecondsToHumanReadable(this.upload.customWindDuration).minutes }} {{ "SETTINGS.MINUTES" | translate }}
+                    {{ this.convertSecondsToHumanReadable(this.upload.customWindDuration).seconds }} {{ "SETTINGS.SECONDS" | translate }}
+                </div>
+                <mat-slider value="{{ this.upload.customWindDuration }}" min="100" max="960" step="10" discrete (input)="setCustomWindDuration($event)">
+                    <input matSliderThumb [(ngModel)]="this.upload.customWindDuration">
+                </mat-slider>
+            </div>
+            
+            <div class="individual-setting">
+                <div class="">
+                    {{ "SETTINGS.ROTATION_PAUSE_TIME" | translate }}
+                </div>
+                <div class="individual-status-text">
+                    {{ this.convertSecondsToHumanReadable(this.upload.customWindPauseDuration).minutes }} {{ "SETTINGS.MINUTES" | translate }}
+                    {{ this.convertSecondsToHumanReadable(this.upload.customWindPauseDuration).seconds }} {{ "SETTINGS.SECONDS" | translate }}
+                </div>
+                <mat-slider value="{{ this.upload.customWindPauseDuration }}" min="10" max="900" step="5" discrete (input)="setCustomWindPauseDuration($event)">
+                    <input matSliderThumb [(ngModel)]="this.upload.customWindPauseDuration">
+                </mat-slider>
+            </div>
+
+            <div class="individual-setting">
+                <div class="">
+                    {{ "SETTINGS.SINGLE_ROTATION_TIMING" | translate }}
+                </div>
+                <div class="individual-status-text">
+                    {{ this.upload.customDurationInSecondsToCompleteOneRevolution }} {{ "SETTINGS.SECONDS" | translate }}
+                </div>
+                <mat-slider value="{{ this.upload.customDurationInSecondsToCompleteOneRevolution }}" min="1" max="16" step="1" discrete (input)="setcustomDurationInSecondsToCompleteOneRevolution($event)">
+                    <input matSliderThumb [(ngModel)]="this.upload.customDurationInSecondsToCompleteOneRevolution">
+                </mat-slider>
+            </div>
+            
+            <div class="individual-setting">
+                <div>
+                    {{ "SETTINGS.INTERNAL_CLOCK" | translate }}
+                </div>
+                
+                <span class="individual-status-text">
+                    <div *ngIf="this.refreshingRTC; else displayTime">
+                        <span>{{ "SETTINGS.LOADING" | translate }}</span>
+                    </div>
+                    <ng-template #displayTime>
+                        {{ this.winderooInternalRTC | date:'mediumTime':'UTC' }}
+                    </ng-template>
+                </span>
+
+                <div class="individual-explainer-text">
+                    {{ "SETTINGS.INTERNAL_CLOCK_BLURB" | translate }}
+                </div>
+                <div class="individual-explainer-text">
+                    {{ "SETTINGS.INTERNAL_CLOCK_BLURB_2" | translate }}
+                </div>
+
+                <div class="individual-explainer-text">
+                    {{ "SETTINGS.INTERNAL_CLOCK_BLURB_3" | translate }}
+                </div>
+
+                <div class="time-input">
+                    <mat-form-field color="accent" appearance="outline">
+                        <mat-label>
+                            {{ "SETTINGS.INTERNAL_CLOCK_BLURB_3" | translate }}
+                        </mat-label>
+                        <select matNativeControl [(ngModel)]="rtcGmtOffsets" name="rtc-gmt-offset">
+                            <option value="" selected></option>
+                            <option *ngFor="let offset of gmtOffsets" [value]="offset.value">
+                                {{ offset.viewValue }}
+                            </option>
+                            </select>
+                    </mat-form-field>
+                </div>
+
+                <div class="individual-explainer-text">
+                    {{ "SETTINGS.INTERNAL_CLOCK_BLURB_4" | translate }}
+                </div>
+
+                <div style="display: flex; justify-content: center;">
+                    <mat-slide-toggle [(ngModel)]="this.upload.dst" (ngModelChange)="updateDstState($event)">
+                        <span *ngIf="this.upload.dst; else elseBlock">
+                            {{ "SETTINGS.ENABLED" | translate | uppercase }}
+                        </span>
+                        <ng-template #elseBlock>
+                            <span>
+                            {{ "SETTINGS.DISABLED" | translate | uppercase }}
+                        </span>
+                    </ng-template>
+                    </mat-slide-toggle>
+                </div>
+
+            </div>
+
+        </div>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z1">
+            <button mat-raised-button color="primary" class="upload-button" (click)="uploadSettings()" [disabled]="upload.disabled">
+                <div class="save-button-text">{{ upload.statusMessage }}</div>
+            </button>
+    </mat-card>
+  </div>
