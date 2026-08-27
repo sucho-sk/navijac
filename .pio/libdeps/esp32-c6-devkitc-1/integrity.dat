@@ -1,9 +1,0 @@
-fbiego/ESP32Time@^2.0.0
-dawidchyrzynski/home-assistant-integration@^2.1.0
-arduino-libraries/NTPClient@^3.2.1
-ESP32Async/ESPAsyncWebServer
-Wire
-https://github.com/tzapu/WiFiManager.git
-adafruit/Adafruit SH110X@^2.1.11
-ESP32Async/AsyncTCP
-https://github.com/bblanchon/ArduinoJson.git
